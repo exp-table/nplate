@@ -1,4 +1,4 @@
-<img align="right" width="150" height="150" top="100" src="./assets/readme.jpg">
+<img align="right" width="150" height="150" top="100" src="./assets/readme.png">
 
 # nplate • ![license](https://img.shields.io/github/license/abigger87/femplate?label=license) ![solidity](https://img.shields.io/badge/solidity-^0.8.15-lightgrey)
 
