@@ -20,6 +20,7 @@ async function generateProof() {
 
     let [prover, verifier] = await setup_generic_prover_and_verifier(acir);
     const proof = await create_proof(prover, acir, abi);
+    // simple output -> easy to use by ffi
     console.log(proof.toString('hex'));
 }
 

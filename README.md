@@ -10,13 +10,18 @@ Click [`use this template`](https://github.com/whitenois3/nplate/generate) to cr
 
 ## Development
 
+Both hardhat and foundry are supported.
+With the help of the `ffi`, you can write complex JS/TS scripts, feed them inputs FROM the foundry test contract and use the output in the test contract.
+
 **Setup**
 ```bash
 npm install
 ```
+Regarding the installation of `nargo`, please refer to its repo [here](https://github.com/noir-lang/noir).
 
 **Building**
 ```bash
+cd circuits
 nargo build
 nargo compile BUILD_NAME
 ```
@@ -25,8 +30,16 @@ nargo compile BUILD_NAME
 ```bash
 npx hardhat test
 ```
+```bash
+forge test --ffi
+```
 
 We have provided two bash scripts in `utils/` to make your life easier when it comes to generating the Verifier contract and a proof.
+
+```
+./utils/safeGenerateContract.sh
+./utils/safeGenerateProof.sh
+```
 
 ## License
 
