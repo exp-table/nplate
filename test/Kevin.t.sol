@@ -1,11 +1,13 @@
-pragma solidity ^0.8.15;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 import "forge-std/console2.sol";
 
 import { Kevin } from "contracts/Kevin.sol";
 
-contract KevinTest is Test {
+import { NoirHelper } from "test/utils/NoirHelper.sol";
+
+contract KevinTest is Test, NoirHelper {
 
     Kevin kevin;
 
@@ -13,13 +15,9 @@ contract KevinTest is Test {
         kevin = new Kevin();
     }
 
-    function _readProof(string memory fileName) internal returns (bytes memory) {
-        string memory file = vm.readFile(string.concat("circuits/proofs/", fileName, ".proof"));
-        return vm.parseBytes(file);
-    }
-
     function testLabouji() external {
-        bytes memory proof = _readProof("a");
+        this.withInput("x", 1).withInput("y", 2).withInput("return", 3);
+        bytes memory proof = generateProof();
         bytes32[] memory inputs = new bytes32[](3);
         inputs[0] = bytes32(uint256(1));
         inputs[1] = bytes32(uint256(2));

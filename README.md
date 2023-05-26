@@ -42,6 +42,7 @@ forge test --ffi
 
 - [femplate](https://github.com/abigger87/femplate)
 - [basic_mul_noir_example](https://github.com/vezenovm/basic_mul_noir_example)
+- [foundry-noir](https://github.com/Maddiaa0/foundry-noir)
 
 ## Disclaimer
 
