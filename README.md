@@ -21,7 +21,7 @@ Regarding the installation of `nargo`, please refer to its repo [here](https://g
 ```bash
 cd circuits
 # generates the Solidity contract
-nargo nargo codegen-verifier
+nargo codegen-verifier
 # generates a file "p.proof" in circuits/proofs
 nargo prove p
 ```
