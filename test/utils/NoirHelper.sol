@@ -1,4 +1,4 @@
-pragma solidity 0.8.17;
+pragma solidity 0.8.20;
 
 import { TestBase } from "forge-std/Base.sol";
 import { console2 as console } from "forge-std/console2.sol";
@@ -50,29 +50,49 @@ contract NoirHelper is TestBase {
 
     /// Generates a proof based on inputs and returns it.
     ///
+    /// # Arguments
+    /// * `proverName` - The name of the prover file to be created in circuits/.
+    ///                  Also servers as the name of the proof to be generated in circuits/proofs.
+    ///
     /// # Example
     ///
     /// ```
     /// withInput("x", 1).withInput("y", 2).withInput("return", 3);
     /// bytes memory proof = generateProof();
     /// ```
-    function generateProof() public returns (bytes memory) {
-        // write to Prover.toml
-        string memory proverTOML = "circuits/Prover.toml";
+    function _generateProof(string memory proverName, bool cleanup) internal returns (bytes memory) {
+        // write prover file
+        string memory proverTOML = string.concat("circuits/", proverName, ".toml");
         vm.writeFile(proverTOML, "");
         // write all inputs with their values
         for(uint i; i < inputs.length; i++) {
             vm.writeLine(proverTOML, string.concat(inputs[i].name, " = ", vm.toString(inputs[i].value)));
         }
         // generate proof
-        string[] memory ffi_cmds = new string[](1);
+        string[] memory ffi_cmds = new string[](2);
         ffi_cmds[0] = "./prove.sh";
+        ffi_cmds[1] = proverName;
         vm.ffi(ffi_cmds);
         // clean inputs
         clean();
         // read proof
-        string memory proof = vm.readFile("circuits/proofs/test.proof");
+        string memory proofLocation = string.concat("circuits/proofs/", proverName, ".proof");
+        string memory proof = vm.readFile(proofLocation);
+
+        if (cleanup) {
+            // remove files
+            vm.removeFile(proverTOML);
+            vm.removeFile(proofLocation);
+        }
         return vm.parseBytes(proof);
+    }
+
+    function generateProofAndClean(string calldata proverName) external returns (bytes memory) {
+        return _generateProof(proverName, true);
+    }
+
+    function generateProof(string calldata proverName) external returns (bytes memory) {
+        return _generateProof(proverName, false);
     }
 
 

@@ -1,3 +1,3 @@
 #!/bin/sh
 cd circuits
-nargo prove test
+nargo prove --prover-name $1 $1
